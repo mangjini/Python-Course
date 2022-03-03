@@ -1,26 +1,15 @@
-days = ("Mon","Tue", "Wed","Thu", "Fri")
+import requests
+from bs4 import BeautifulSoup
 
-for day in days : 
-  if day == "Wed":
-    break
-  else:
-    print(day)
+indeed_result = requests.get(
+  "https://www.indeed.com/jobs?q=python&limit=50"
+)
 
-for letter in "mangji":
-  print(letter)
+indeed_soup = BeautifulSoup(indeed_result.text,"html.parser")
 
-
-#module import(모듈전체, 사용하지않는것도)
-import math
-
-#모듈 중 필요한 것만 import
-from math import ceil, fsum as cool_sum
-#fsum에 이름 붙여줌 (cool_sum)
-
-print(math.ceil(1.2))
-print(cool_sum([1,2,3,4,5]))
+pagination = indeed_soup.find("div",{"class":"pagination"})
 
 
-from calculator import plus,minus
+pages = pagination.find_all('a')
 
-print(plus(1,2),minus(1,2),True,"llalalala",True,"fkdkfslfslf")
+print(pages)
